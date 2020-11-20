@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 package fcfs;
+
 import java.text.ParseException; 
-import java.util.*; 
+import java.util.*;
+public class Fcfs {
 
-/**
- *
- * @author ujjwa
- */
-public class FCFS {
-
-   // Function to find the waiting time for all  
+    /**
+     * @param args the command line arguments
+     */
+    
+    // Function to find the waiting time for all  
     // processes  
     static void findWaitingTime(int processes[], int n, int at[],
         int bt[], int wt[]) { 
@@ -51,8 +51,8 @@ public class FCFS {
         findTurnAroundTime(processes, n, at, bt, wt, tat); 
   
         //Display processes along with all details  
-        System.out.printf("Processes  Arrv time  Burst time  Waiting"
-                       +" time  Turn around time\n"); 
+        System.out.printf("Processes  Arrival time  Burst time  Waiting time"
+                       +" Turn around time\n"); 
   
         // Calculate total waiting time and total turn  
         // around time  
@@ -61,21 +61,21 @@ public class FCFS {
             total_tat = total_tat + tat[i]; 
             System.out.printf("     %d    ", (i + 1)); 
             System.out.printf("     %d    ", at[i]);
-            System.out.printf("     %d    ", bt[i]); 
-            System.out.printf("     %d      ", wt[i]); 
+            System.out.printf("     %d  \t  ", bt[i]); 
+            System.out.printf("     %d \t ", wt[i]); 
             System.out.printf("     %d    \n", tat[i]); 
         } 
         float s = (float)total_wt /(float) n; 
         int t = total_tat / n; 
+        System.out.printf("First come first serve:- \n");
         System.out.printf("Average waiting time = %f", s); 
         System.out.printf("\n"); 
-        System.out.printf("Average turn around time = %d ", t); 
+        System.out.printf("Average turn around time = %d \n ", t); 
     } 
-  
-    // Driver code  
-    public static void main(String[] args) throws ParseException { 
-        
-        Scanner sc = new Scanner(System.in);
+    
+    public static void main(String[] args) {
+        // TODO code application logic here
+         Scanner sc = new Scanner(System.in);
         System.out.println("Number of Processes:");
         int n = sc.nextInt();
         System.out.println("Number of Processes:" + n);
@@ -99,17 +99,10 @@ public class FCFS {
         
         findavgTime(processes, n,arr_time, burst_time); 
         
-        System.out.println("\n\nRound Robin:\n");       
-        //RR.main(args);
-        
-        System.out.println("\n\nShortest Process Next:\n");     
-        //SJF.main(args);
     
-        System.out.println("\n\nShortest Remaining Time First:\n");
-        SRTF.main(args);
-        
-        System.out.println("\n\nHighest Response Ratio Next:\n");
-        HRRN.main(args);
-    } 
+    }
     
 }
+
+
+ 
