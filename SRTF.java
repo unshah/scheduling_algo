@@ -5,12 +5,14 @@
  */
 package fcfs;
 
+import java.util.Scanner;
+
 /**
  *
  * @author ujjwa
  */
 
-class Process 
+/*class Process 
 { 
     int pid; // Process ID 
     int bt; // Burst Time 
@@ -22,19 +24,19 @@ class Process
         this.bt = bt; 
         this.art = art; 
     } 
-} 
+} */
 
 public class SRTF {
     // Method to find the waiting time for all 
     // processes 
-    static void findWaitingTime(Process proc[], int n, 
-                                     int wt[]) 
+    static void findWaitingTime(int proc[], int n, int at[],
+        int bt[], int wt[]) 
     { 
     int rt[] = new int[n]; 
        
         // Copy the burst time into rt[] 
         for (int i = 0; i < n; i++) 
-            rt[i] = proc[i].bt; 
+            rt[i] = bt[i]; 
        
         int complete = 0, t = 0, minm = Integer.MAX_VALUE; 
         int shortest = 0, finish_time; 
@@ -50,7 +52,7 @@ public class SRTF {
             // current time` 
             for (int j = 0; j < n; j++)  
             { 
-                if ((proc[j].art <= t) && 
+                if ((at[j] <= t) && 
                   (rt[j] < minm) && rt[j] > 0) { 
                     minm = rt[j]; 
                     shortest = j; 
@@ -85,8 +87,8 @@ public class SRTF {
        
                 // Calculate waiting time 
                 wt[shortest] = finish_time - 
-                             proc[shortest].bt - 
-                             proc[shortest].art; 
+                             bt[shortest] - 
+                             at[shortest]; 
        
                 if (wt[shortest] < 0) 
                     wt[shortest] = 0; 
@@ -97,32 +99,33 @@ public class SRTF {
     } 
        
     // Method to calculate turn around time 
-    static void findTurnAroundTime(Process proc[], int n, 
+    static void findTurnAroundTime(int proc[], int n,int at[], int bt[],
                             int wt[], int tat[]) 
     { 
         // calculating turnaround time by adding 
         // bt[i] + wt[i] 
         for (int i = 0; i < n; i++) 
-            tat[i] = proc[i].bt + wt[i]; 
+            tat[i] = bt[i] + wt[i]; 
     } 
        
     // Method to calculate average time 
-    static void findavgTime(Process proc[], int n) 
+    static void findavgTime(int proc[], int n, int at[], int bt[]) 
     { 
         int wt[] = new int[n], tat[] = new int[n]; 
         int  total_wt = 0, total_tat = 0; 
        
         // Function to find waiting time of all 
         // processes 
-        findWaitingTime(proc, n, wt); 
+        findWaitingTime(proc, n, at, bt, wt); 
        
         // Function to find turn around time for 
         // all processes 
-        findTurnAroundTime(proc, n, wt, tat); 
+        findTurnAroundTime(proc, n, at, bt, wt, tat); 
        
         // Display processes along with all 
         // details 
         System.out.println("Processes " + 
+                           "Arrival time"+
                            " Burst time " + 
                            " Waiting time " + 
                            " Turn around time"); 
@@ -132,8 +135,8 @@ public class SRTF {
         for (int i = 0; i < n; i++) { 
             total_wt = total_wt + wt[i]; 
             total_tat = total_tat + tat[i]; 
-            System.out.println(" " + proc[i].pid + "\t\t"
-                             + proc[i].bt + "\t\t " + wt[i] 
+            System.out.println(" " + (i+1) + "\t\t"+at[i]+"\t"
+                             + bt[i] + "\t\t " + wt[i] 
                              + "\t\t" + tat[i]); 
         } 
        
@@ -146,12 +149,24 @@ public class SRTF {
     // Driver Method 
     public static void main(String[] args) 
     { 
-         Process proc[] = { new Process(1, 10, 0),  
-                            new Process(2, 2, 1), 
-                            new Process(3, 5, 3),  
-                            new Process(4, 9, 4),
-                            new Process(5, 7, 7)}; 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Number of Processes:");
+        int n = sc.nextInt();
+        System.out.println("Number of Processes Entered= " + n); 
+        
+        int[] proc= new int[n];
+        int burst_time[] = new int[n];
+        int arr_time[] = new int [n];
+        //int n = processes.lengt
+        for (int i=0; i<n; i++){
+           int a = i+1;
           
-         findavgTime(proc, proc.length); 
+           System.out.println("Arrival Time of Processes "+a+" :");
+           arr_time[i] = sc.nextInt();
+           System.out.println("Burst Time of Processe "+a+" :");
+           burst_time[i] = sc.nextInt();
+        }
+         
+         findavgTime(proc, n, arr_time, burst_time); 
     } 
 }
