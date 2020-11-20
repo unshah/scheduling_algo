@@ -5,7 +5,7 @@
  */
 package fcfs;
 import java.text.ParseException; 
-
+import java.util.*; 
 
 /**
  *
@@ -15,19 +15,22 @@ public class FCFS {
 
    // Function to find the waiting time for all  
     // processes  
-    static void findWaitingTime(int processes[], int n, 
-            int bt[], int wt[]) { 
+    static void findWaitingTime(int processes[], int n, int at[],
+        int bt[], int wt[]) { 
         // waiting time for first process is 0  
         wt[0] = 0; 
-  
+        int[] serv_time = new int[n];
+        
         // calculating waiting time  
         for (int i = 1; i < n; i++) { 
-            wt[i] = bt[i - 1] + wt[i - 1]; 
+            //Add service time for previous process
+            serv_time[i]= serv_time[i-1]+bt[i-1];
+            wt[i] = serv_time[i] - at[i]; 
         } 
     } 
   
     // Function to calculate turn around time  
-    static void findTurnAroundTime(int processes[], int n, 
+    static void findTurnAroundTime(int processes[], int n, int at[],
             int bt[], int wt[], int tat[]) { 
         // calculating turnaround time by adding  
         // bt[i] + wt[i]  
@@ -37,29 +40,30 @@ public class FCFS {
     } 
   
     //Function to calculate average time  
-    static void findavgTime(int processes[], int n, int bt[]) { 
+    static void findavgTime(int processes[], int n, int at[], int bt[]) { 
         int wt[] = new int[n], tat[] = new int[n]; 
         int total_wt = 0, total_tat = 0; 
   
         //Function to find waiting time of all processes  
-        findWaitingTime(processes, n, bt, wt); 
+        findWaitingTime(processes, n, at, bt, wt); 
   
         //Function to find turn around time for all processes  
-        findTurnAroundTime(processes, n, bt, wt, tat); 
+        findTurnAroundTime(processes, n, at, bt, wt, tat); 
   
         //Display processes along with all details  
-        System.out.printf("Processes Burst time Waiting"
-                       +" time Turn around time\n"); 
+        System.out.printf("Processes  Arrv time  Burst time  Waiting"
+                       +" time  Turn around time\n"); 
   
         // Calculate total waiting time and total turn  
         // around time  
         for (int i = 0; i < n; i++) { 
             total_wt = total_wt + wt[i]; 
             total_tat = total_tat + tat[i]; 
-            System.out.printf(" %d ", (i + 1)); 
-            System.out.printf("     %d ", bt[i]); 
-            System.out.printf("     %d", wt[i]); 
-            System.out.printf("     %d\n", tat[i]); 
+            System.out.printf("     %d    ", (i + 1)); 
+            System.out.printf("     %d    ", at[i]);
+            System.out.printf("     %d    ", bt[i]); 
+            System.out.printf("     %d      ", wt[i]); 
+            System.out.printf("     %d    \n", tat[i]); 
         } 
         float s = (float)total_wt /(float) n; 
         int t = total_tat / n; 
@@ -70,28 +74,42 @@ public class FCFS {
   
     // Driver code  
     public static void main(String[] args) throws ParseException { 
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Number of Processes:");
+        int n = sc.nextInt();
+        System.out.println("Number of Processes:" + n);
+        //System.out.println("\n\nFirst Come First Serve:\n");        
+        
         //process id's  
-        int processes[] = {1, 2, 3, 4, 5}; 
-        int n = processes.length; 
-  
-        //Burst time of all processes  
-        int burst_time[] = {10, 2, 5, 9, 7}; 
-  
-        System.out.println("First Come First Serve:\n");
+        int[] processes = new int[n]; 
+        //int n = processes.length; 
+        int burst_time[] = new int[n];
+        int arr_time[] = new int [n];
+        //Burst time of all processes
+        for(int i = 0; i<n; i++){
+            int a = i+1;
+           
+            System.out.println("Arrival Time of Processes "+a+" :");
+            arr_time[i] = sc.nextInt();
+            System.out.println("Burst Time of Processe "+a+" :");
+            burst_time[i] = sc.nextInt();
+        }
+        //int burst_time[] = {10, 2, 5, 9, 7}; 
         
-        findavgTime(processes, n, burst_time); 
+        findavgTime(processes, n,arr_time, burst_time); 
         
-        System.out.println("\n\nRound Robin:\n");
+        System.out.println("\n\nRound Robin:\n");       
+        //RR.main(args);
         
-        RR.main(args);
-        
-        System.out.println("\n\nShortest Job First:\n");
-        
-        SJF.main(args);
-  
+        System.out.println("\n\nShortest Process Next:\n");     
+        //SJF.main(args);
+    
         System.out.println("\n\nShortest Remaining Time First:\n");
-        
         SRTF.main(args);
+        
+        System.out.println("\n\nHighest Response Ratio Next:\n");
+        HRRN.main(args);
     } 
     
 }
