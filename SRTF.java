@@ -3,32 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fcfs;
+package srt;
 
 import java.util.Scanner;
 
-/**
- *
- * @author ujjwa
- */
+public class Srt {
 
-/*class Process 
-{ 
-    int pid; // Process ID 
-    int bt; // Burst Time 
-    int art; // Arrival Time 
-      
-    public Process(int pid, int bt, int art) 
-    { 
-        this.pid = pid; 
-        this.bt = bt; 
-        this.art = art; 
-    } 
-} */
-
-public class SRTF {
-    // Method to find the waiting time for all 
-    // processes 
     static void findWaitingTime(int proc[], int n, int at[],
         int bt[], int wt[]) 
     { 
@@ -139,6 +119,7 @@ public class SRTF {
                              + bt[i] + "\t\t " + wt[i] 
                              + "\t\t" + tat[i]); 
         } 
+        System.out.println("Shortest Remaining time:-");
        
         System.out.println("Average waiting time = " + 
                           (float)total_wt / (float)n); 
