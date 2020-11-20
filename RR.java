@@ -3,14 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fcfs;
+package rr;
 
 import java.util.Scanner;
 
-/**
- *
- * @author ujjwa
- */
 public class RR {
     // Method to find the waiting time for all 
     // processes 
@@ -113,6 +109,7 @@ public class RR {
                               wt[i] +"\t\t " + tat[i]); 
         } 
        
+       System.out.println("Round Robin:-");
         System.out.println("Average waiting time = " + 
                           (float)total_wt / (float)n); 
         System.out.println("Average turn around time = " + 
@@ -142,7 +139,7 @@ public class RR {
         }
        
         // Time quantum 
-        System.out.println("Enter the time quantum:");
+        System.out.println("Enter the time quantum(No.>0):");
         int quantum = sc.nextInt();
         findavgTime(processes, n, arr_time, burst_time, quantum); 
     }  
