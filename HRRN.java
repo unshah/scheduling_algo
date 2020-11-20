@@ -3,17 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fcfs;
+package hrrn;
 
 import java.util.*;
-class HRRN{    
+
+
+class Hrrn{    
     //HELPER FUNCTIONS
-	static void sortByArrival(Processe ob[], int n){//Sort according to arrival time
+	static void sortByArrival(Processes ob[], int n){//Sort according to arrival time
 	       int i, j;       
 	       for(i = 0; i < n; i++){
 	           for(j = 0; j < n - 1-i; j++){
 	               if(ob[j].arrival_time > ob[j+1].arrival_time){
-	                   Processe temp = ob[j];
+	                   Processes temp = ob[j];
 	                   ob[j] = ob[j+1];
 	                   ob[j+1] = temp;
 	               }
@@ -21,12 +23,12 @@ class HRRN{
 	       }
 	    }
 
-    	static void sortByRemainingTime(Processe ob[], int n){//Sort according //to arrival time
+    	static void sortByRemainingTime(Processes ob[], int n){//Sort according //to arrival time
        int i, j;       
        for(i = 0; i < n; i++){
            for(j = 0; j < n - 1-i; j++){
                if(ob[j].remaining_time < ob[j+1].remaining_time){
-                   Processe temp = ob[j];
+                   Processes temp = ob[j];
                    ob[j] = ob[j+1];
                    ob[j+1] = temp;
                }
@@ -34,7 +36,7 @@ class HRRN{
        }
     }
 
-    static boolean readyQueueIsNotEmpty(Processe ob[], int n){       
+    static boolean readyQueueIsNotEmpty(Processes ob[], int n){       
 	    for(int i = 0; i < n; i++){
 	        if(!ob[i].hasFinished){
 	            return true;
@@ -43,14 +45,14 @@ class HRRN{
         return false;
     }
 
-    static void display(Processe ob[], int n){       System.out.println("\nid\tArrival\tBurst\tPriority\tStart\tEnd\tTAT\tWT\tRT");
+    static void display(Processes ob[], int n){       System.out.println("\nProcesses\tArrival\tBurst\tPriority  Start\tEnd\tTurnaround time \tWaiting time\tResponse Time");
         for(int i = 0; i < n; i++){
-            System.out.println(ob[i].id+"\t"+ob[i].arrival_time+"\t"+ob[i].burst_time+"\t"+ob[i].original_priority+"\t\t"+ob[i].start_time+"\t"+ob[i].end_time+"\t"+ob[i].turnaround_time+"\t"+ob[i].wait_time+"\t"+ob[i].response_time);                    
+            System.out.println(ob[i].id+"\t\t"+ob[i].arrival_time+"\t"+ob[i].burst_time+"\t"+ob[i].original_priority+"\t    "+ob[i].start_time+"\t "+ob[i].end_time+"\t\t"+ob[i].turnaround_time+"\t\t   "+ob[i].wait_time+"\t\t"+ob[i].response_time);                    
         }
     }
   
   //<-----HRRN WITH PRIORITY & PREEMPTION----->
-    static void PMHRRN(Processe ob[], int n)
+    static void PMHRRN(Processes ob[], int n)
     {
     	double awt = 0.0, atat = 0.0, art = 0.0;
         int time = 0, previous=-1, current = -1;
@@ -89,10 +91,10 @@ class HRRN{
         sortByArrival(ob, n);
         display(ob, n);
         awt /= n; atat /= n; art /= n;
-        System.out.println("\nA.W.T.: "+awt+"\nA.T.A.T.: "+atat+"\nA.R.T.: "+art);
+        System.out.println("Highest response ratio next:-"+ "\nAverage waiting time: "+awt+"\nAverage Turnaround time: "+atat);
     }    
 
-	private static void displayMidExecution(Processe[] ob, int n) {
+	private static void displayMidExecution(Processes[] ob, int n) {
 		int i;
 		System.out.println("ID\tBurst Time\tRemaining\tPriority(E)\tHybrid Priority");
 		for(i = 0; i < n; i++)
@@ -103,13 +105,13 @@ class HRRN{
 			}
 		}
 }
-	private static void updateReadyQueue(Processe[] ob, int n, int time) {
+	private static void updateReadyQueue(Processes[] ob, int n, int time) {
 		int i;
 		for(i = 0; i < n; i++)
 			if(ob[i].arrival_time <= time)	
 ob[i].isReady = true;
     }
-	private static int findMaxPriority(Processe[] ob, int n) {
+	private static int findMaxPriority(Processes[] ob, int n) {
 		int i,pos = -1;;float max = -1;
 		float p =  0.5f;
     	for(i = 0; i < n; i++)
@@ -130,7 +132,7 @@ ob[i].isReady = true;
     	return pos;
 	}
 
-	private static void updateWaitingTime(Processe[] ob, int n, int previous ) {
+	private static void updateWaitingTime(Processes[] ob, int n, int previous ) {
 		for(int i = 0; i < n; i++)
 		{			
 			if (i == previous)	continue;
@@ -139,7 +141,7 @@ ob[i].isReady = true;
 		}	
 	}
 
-	private static void assignPriority(Processe[] ob, int n) {
+	private static void assignPriority(Processes[] ob, int n) {
     	int i, count = 0, previous = -1;
     	sortByRemainingTime(ob, n);
     	for(i = 0; i < n; i++){
@@ -160,26 +162,26 @@ ob[i].isReady = true;
             sc.hasNext();
             int n = sc.nextInt();
         
-            Processe p[] = new Processe[n];
+            Processes p[] = new Processes[n];
             for(int i = 0; i < n; i++){
                 System.out.println("Process "+(i+1));
-                System.out.println("Ënter arrival time, burst time, priority ");
+                System.out.println("Enter arrival time, burst time, priority ");
                 int arr = sc.nextInt();
                 int bur = sc.nextInt();
                 int pri = sc.nextInt();
-                p[i] = new Processe(i+1, arr, bur, pri);
+                p[i] = new Processes(i+1, arr, bur, pri);
             }
             display(p, n);
             PMHRRN(p, n);
             sc.close();           
     }   
 }
-class Processe{
+class Processes{
     int id, priority, original_priority,arrival_time, wait_time, burst_time, start_time, end_time, turnaround_time, remaining_time;
     float hybrid_priority, response_time;
     boolean isReady, hasFinished, hasArrived;
   //Flag = 1 when Remaining time = 0 i.e. process has finished executing
-    Processe(int id, int a,int b, int p){
+    Processes(int id, int a,int b, int p){
         this.id = id;
         this.start_time = 0;
         this.arrival_time = a;
